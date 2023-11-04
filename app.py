@@ -1,3 +1,5 @@
+import gradio as gr
+
 def greet(name, is_morning, temp):
 salutatuin = "Gm" if is_morning else "Ge"
 greeting = f"{salutatuin} {name}. It is {temp} degress today"
