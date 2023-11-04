@@ -37,7 +37,7 @@ def predict_image(img):
 
 iface = gr.Interface(
         fn= predict_image,
-        inputs= gr.Image(height=28, width=28, image_mode='L', sources='clipboard'),
+        inputs= gr.Image(height=28, width=28, image_mode='L', sources='upload'),
         outputs='label'
         
         )
