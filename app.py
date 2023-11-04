@@ -35,6 +35,11 @@ def predict_image(img):
   pred=np.argmax(prediction)
   return pred
 
-iface = gr.Interface(predict_image, inputs="sketchpad", outputs="label")
+iface = gr.Interface(
+        fn= predict_image,
+        inputs= gr.Image(height=28, width=28, image_mode='L', sources='clipboard'),
+        outputs='label'
+        
+        )
 
 iface.launch(debug='True')
