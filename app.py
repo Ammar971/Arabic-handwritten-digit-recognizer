@@ -21,5 +21,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.image as mpimg
 
+inception_net = tf.keras.applications.MobileNetV2()
+
 X_train = pd.read_csv("csvTrainImages 60k x 784.csv")
 print('X_train shape', X_train.shape)
