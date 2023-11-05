@@ -86,6 +86,6 @@ image = gr.Image(height=180,width=180)
 label = gr.Label(num_top_classes=5)
 #gr.Interface(fn=predict_image, inputs=image, outputs=label,interpretation='default').launch(debug='True')
 
-gr.Interface(predict_image, inputs=image, outputs=label )
+iface = gr.Interface(predict_image, inputs=image, outputs=label )
 
 iface.launch(debug=True)
