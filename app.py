@@ -1,4 +1,4 @@
-pip install tensorrt
+import tensorrt
 import tensorflow as tf
 from tensorflow import keras
 from keras import layers
