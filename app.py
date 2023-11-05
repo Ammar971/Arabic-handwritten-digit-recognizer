@@ -38,7 +38,7 @@ model.compile(optimizer='adam',
             loss='sparse_categorical_crossentropy',
             metrics=['accuracy'])
 
-model.fit(X_train, y_train, epochs=5)
+model.fit(X_train, y_train, epochs=1)
 
 def predict_image(img):
   img_3d = img.reshape(-1, 28,28)
@@ -49,6 +49,6 @@ def predict_image(img):
   return pred.item()
     
 
-iface = gr.Interface(predict_image, inputs='sketchpad', outputs='label', title='Digit Recognition Model By Debamrita Paul', description='Draw a single digit(0 to 9)', __gradio_theme='dark')
+iface = gr.Interface(predict_image, inputs='sketchpad', outputs='label', title='Digit Recognition Model By Debamrita Paul', description='Draw a single digit(0 to 9)')
 
 iface.launch()
