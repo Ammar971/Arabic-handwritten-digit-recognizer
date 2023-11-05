@@ -96,7 +96,7 @@ optimizer = SGD(learning_rate=0.001, momentum=0.30)
 
 model.compile(optimizer = optimizer , loss = "categorical_crossentropy", metrics=["accuracy"])
 
-history = model.fit( X_train,Y_train, batch_size=64, epochs = 1, validation_data = (X_val, Y_val), verbose = 1)
+history = model.fit( X_train,Y_train, batch_size=64, epochs = 5, validation_data = (X_val, Y_val), verbose = 1)
 
 def predict_image(img):
   img_3d = img.reshape(-1, 28,28)
@@ -107,6 +107,6 @@ def predict_image(img):
   return pred.item()
 
 
-iface = gr.Interface(predict_image, inputs='sketchpad', outputs='label', title='Digit Recognition Model By Debamrita Paul', description='Draw a single digit(0 to 9)')
+iface = gr.Interface(predict_image, inputs='sketchpad', outputs='label', title='Arabic Numbers Recognition', description='Draw a number')
 
 iface.launch()
