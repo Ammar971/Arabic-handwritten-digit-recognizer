@@ -33,3 +33,5 @@ saved_model/**/* filter=lfs diff=lfs merge=lfs -text
 *.zip filter=lfs diff=lfs merge=lfs -text
 *.zst filter=lfs diff=lfs merge=lfs -text
 *tfevents* filter=lfs diff=lfs merge=lfs -text
+csvTestImages[[:space:]]10k[[:space:]]x[[:space:]]784.csv filter=lfs diff=lfs merge=lfs -text
+csvTrainImages[[:space:]]60k[[:space:]]x[[:space:]]784.csv filter=lfs diff=lfs merge=lfs -text
