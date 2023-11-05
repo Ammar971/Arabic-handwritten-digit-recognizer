@@ -1,3 +1,7 @@
 tensorflow
-gradio
+tensorflow-datasets
 keras
+matplotlib
+scikit-learn
+numpy
+gradio
