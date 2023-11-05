@@ -109,4 +109,4 @@ def predict_image(img):
 
 iface = gr.Interface(predict_image, inputs='sketchpad', outputs='label', title='Digit Recognition Model By Debamrita Paul', description='Draw a single digit(0 to 9)')
 
-iface.launch(share=True)
+iface.launch()
