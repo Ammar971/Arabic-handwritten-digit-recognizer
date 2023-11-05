@@ -24,4 +24,11 @@ import matplotlib.image as mpimg
 
 
 X_train = pd.read_csv("csvTrainImages 60k x 784.csv")
+y_train = pd.read_csv("csvTrainLabel 60k x 1.csv")
+X_test = pd.read_csv("csvTestImages 10k x 784.csv")
+y_test = pd.read_csv("csvTestLabel 10k x 1.csv")
+
 print('X_train shape', X_train.shape)
+print('y_train shape', y_train.shape)
+print('X_test shape', X_test.shape)
+print('y_test shape', y_test.shape)
