@@ -81,7 +81,7 @@ def predict_image(img):
   prediction=model.predict(img_4d)[0]
   return {class_names[i]: float(prediction[i]) for i in range(5)}
 
-    image = gr.Image(height=180,width=180)
+image = gr.Image(height=180,width=180)
 #label = gr.outputs.Label(num_top_classes=5)
 label = gr.Label(num_top_classes=5)
 #gr.Interface(fn=predict_image, inputs=image, outputs=label,interpretation='default').launch(debug='True')
