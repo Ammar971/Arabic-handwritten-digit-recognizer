@@ -1,6 +1,6 @@
 tensorflow
 tensorflow-datasets
-TensorRT
+tensorrt
 keras
 matplotlib
 scikit-learn
