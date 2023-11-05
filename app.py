@@ -9,7 +9,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from sklearn.metrics import confusion_matrix
-import seaborn as sn
 import pandas as pd
 
 import gradio as gr
