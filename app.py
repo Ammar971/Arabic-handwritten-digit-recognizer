@@ -1,91 +1,54 @@
 import gradio as gr
-import matplotlib.pyplot as plt
-import numpy as np
-import os
-import PIL
+from gradio import Interface
 import tensorflow as tf
-
 from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras.models import Sequential
+from tensorflow.keras import datasets, layers, models
+import numpy as np
 
-import pathlib
-dataset_url = "https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz"
-data_dir = tf.keras.utils.get_file('flower_photos', origin=dataset_url, untar=True)
-data_dir = pathlib.Path(data_dir)
+(X_train, y_train) , (X_test, y_test) = keras.datasets.mnist.load_data()
 
-roses = list(data_dir.glob('roses/*'))
-print(roses[0])
-PIL.Image.open(str(roses[0]))
+X_train = np.concatenate((X_train, X_test))
+y_train = np.concatenate((y_train, y_test))
 
-img_height,img_width=180,180
-batch_size=32
-train_ds = tf.keras.preprocessing.image_dataset_from_directory(
-  data_dir,
-  validation_split=0.2,
-  subset="training",
-  seed=123,
-  image_size=(img_height, img_width),
-  batch_size=batch_size)
+X_train = X_train / 255
+X_test = X_test / 255
 
-val_ds = tf.keras.preprocessing.image_dataset_from_directory(
-  data_dir,
-  validation_split=0.2,
-  subset="validation",
-  seed=123,
-  image_size=(img_height, img_width),
-  batch_size=batch_size)
+data_augmentation = keras.Sequential([
+    tf.keras.layers.experimental.preprocessing.RandomRotation(0.2, input_shape=(28, 28, 1)),
+])
 
-class_names = train_ds.class_names
-print(class_names)
+model = models.Sequential([   
+    data_augmentation,
+                                                   
+    #cnn
+    layers.Conv2D(filters=32, kernel_size=(3,3), padding='same', activation='relu'),
+    layers.MaxPooling2D((2,2)),
+    layers.Conv2D(filters=32, kernel_size=(3,3), padding='same', activation='relu'),
+    layers.MaxPooling2D((2,2)),
 
-import matplotlib.pyplot as plt
+    #dense
 
-plt.figure(figsize=(10, 10))
-for images, labels in train_ds.take(1):
-  for i in range(9):
-    ax = plt.subplot(3, 3, i + 1)
-    plt.imshow(images[i].numpy().astype("uint8"))
-    plt.title(class_names[labels[i]])
-    plt.axis("off")
+    layers.Flatten(),
+    layers.Dense(32, activation='relu'),
+    layers.Dense(10, activation='softmax'),
 
-    num_classes = 5
-
-model = Sequential([
-  layers.experimental.preprocessing.Rescaling(1./255, input_shape=(img_height, img_width, 3)),
-  layers.Conv2D(16, 3, padding='same', activation='relu'),
-  layers.MaxPooling2D(),
-  layers.Conv2D(32, 3, padding='same', activation='relu'),
-  layers.MaxPooling2D(),
-  layers.Conv2D(64, 3, padding='same', activation='relu'),
-  layers.MaxPooling2D(),
-  layers.Flatten(),
-  layers.Dense(128, activation='relu'),
-  layers.Dense(num_classes,activation='softmax')
 ])
 
 model.compile(optimizer='adam',
-              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-              metrics=['accuracy'])
+            loss='sparse_categorical_crossentropy',
+            metrics=['accuracy'])
 
-epochs=1
-history = model.fit(
-  train_ds,
-  validation_data=val_ds,
-  epochs=epochs,
-  verbose=1
-)
+model.fit(X_train, y_train, epochs=5)
 
 def predict_image(img):
-  img_4d=img.reshape(-1,180,180,3)
-  prediction=model.predict(img_4d)[0]
-  return {class_names[i]: float(prediction[i]) for i in range(5)}
+  img_3d = img.reshape(-1, 28,28)
+  img_scaled = img_3d/255
+  prediction = model.predict(img_scaled)
+  pred = np.argmax(prediction)
 
-image = gr.Image(height=180,width=180)
-#label = gr.outputs.Label(num_top_classes=5)
-label = gr.Label(num_top_classes=5)
-#gr.Interface(fn=predict_image, inputs=image, outputs=label,interpretation='default').launch(debug='True')
+  return pred.item()
+    
 
-iface = gr.Interface(predict_image, inputs=image, outputs=label )
+iface = gr.Interface(predict_image, inputs='sketchpad', outputs='label', title='Digit Recognition Model By Debamrita Paul', description='Draw a single digit(0 to 9)', __gradio_theme='dark')
 
-iface.launch(debug=True)
+iface.launch()
