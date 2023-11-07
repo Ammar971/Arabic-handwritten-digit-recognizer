@@ -106,7 +106,8 @@ def predict_image(img):
 
   return pred.item()
 
+sp = gr.Sketchpad(brush_radius=1.0, shape=(28,28), )
 
-iface = gr.Interface(predict_image, inputs='sketchpad', outputs='label', title='Arabic Numbers Recognition', description='Draw a number')
+iface = gr.Interface(predict_image, inputs=sp, outputs='label', title='Arabic Numbers Recognition', description='Draw a number')
 
 iface.launch()
