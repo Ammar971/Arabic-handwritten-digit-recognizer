@@ -1,5 +1,5 @@
 ---
-title: Demo
+title: Arabic Digit Recognizer
 emoji: 🐢
 colorFrom: pink
 colorTo: purple
